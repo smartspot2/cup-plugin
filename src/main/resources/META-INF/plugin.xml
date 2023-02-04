@@ -1,11 +1,11 @@
 <idea-plugin>
-    <id>tirke.cupPlugin</id>
-    <name>Cup Support</name>
-    <version>1.4</version>
-    <vendor email="tschersach@gmail.com" url="https://github.com/Tirke">Schersach Thomas</vendor>
+    <id>smartspot2.cupPlugin</id>
+    <name>Cup Language Support</name>
+    <version>2.0</version>
+    <vendor email="smartspot2@gmail.com" url="https://github.com/smartspot2">Alec Li</vendor>
 
     <description><![CDATA[
-      Java CUP file support for editing in Intellij.
+      Java CUP file support for editing in Intellij. Forked from tirke/cup-plugin.
     ]]></description>
 
     <change-notes>
@@ -13,82 +13,13 @@
     <hr>
 
     <div>
-        <b>1.4</b>
+        <b>2.0</b>
         <ul>
-            <li>Compatibility with newer Intellij versions</li>
+            <li>Forked from <a href="https://github.com/Tirke/cup-plugin">tirke/cup-plugin</a></li>
+            <li>Migrate to Gradle plugin</li>
+            <li>Fix Java code injection</li>
         </ul>
     </div>
-
-    <div>
-        <b>1.3</b>
-        <ul>
-            <li>Compatibility with newer Intellij versions</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>1.2</b>
-        <ul>
-            <li>Fixed storage and build</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>1.1</b>
-        <ul>
-            <li>Quick fixes for diamond types</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>1.0</b>
-        <ul>
-            <li>Option to disable Java Injection</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>0.5</b>
-        <ul>
-            <li>Auto Completion for Keywords</li>
-            <li>Get Usages in rules and Rename Element</li>
-            <li>Highlighting changes</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>0.4</b>
-        <ul>
-            <li>Commenter</li>
-            <li>Java Language Injection fixes</li>
-            <li>References for Terminal and Non Terminal Symbols</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>0.3</b>
-        <ul>
-            <li>Removed Auto Completion</li>
-            <li>Grammar refactoring</li>
-            <li>Java Language Injection between "{: :}"</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>0.2</b>
-        <ul>
-            <li>Auto Completion</li>
-            <li>Custom braces matching</li>
-        </ul>
-    </div>
-
-    <div>
-        <b>0.1</b>
-        <ul>
-            <li>Syntax Highlighting</li>
-        </ul>
-    </div>
-
     ]]>
     </change-notes>
 
@@ -101,7 +32,7 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Cup file" implementationClass="tirke.cupPlugin.CupFileType" fieldName="INSTANCE" language="Cup" extensions="cup"/>
+        <fileType name="Cup file" implementationClass="tirke.cupPlugin.CupFileType" language="Cup" extensions="cup"/>
         <lang.parserDefinition
                 language="Cup"
                 implementationClass="tirke.cupPlugin.parser.CupParserDefinition"/>
