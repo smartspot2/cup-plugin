@@ -6,6 +6,6 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 
-public interface CupJavaBody extends PsiLanguageInjectionHost {
+public interface CupJavaRaw extends PsiLanguageInjectionHost {
 
 }

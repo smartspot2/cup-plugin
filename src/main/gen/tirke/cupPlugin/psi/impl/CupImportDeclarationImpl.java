@@ -8,12 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static tirke.cupPlugin.psi.CupTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import tirke.cupPlugin.psi.*;
 
-public class CupImportDeclarationImpl extends ASTWrapperPsiElement implements CupImportDeclaration {
+public class CupImportDeclarationImpl extends CupJavaImpl implements CupImportDeclaration {
 
-  public CupImportDeclarationImpl(@NotNull ASTNode node) {
+  public CupImportDeclarationImpl(ASTNode node) {
     super(node);
   }
 

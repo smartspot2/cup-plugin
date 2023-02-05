@@ -5,13 +5,15 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.LiteralTextEscaper;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import org.jetbrains.annotations.NotNull;
-import tirke.cupPlugin.psi.CupJavaCode;
+import tirke.cupPlugin.psi.CupJavaRaw;
+import tirke.cupPlugin.psi.CupPsiElementFactory;
 import tirke.cupPlugin.psi.CupVisitor;
 
-public class CupJavaImpl extends ASTWrapperPsiElement implements CupJavaCode {
+public class CupJavaImpl extends ASTWrapperPsiElement implements CupJavaRaw {
 
     public CupJavaImpl(ASTNode node) {
         super(node);
@@ -19,7 +21,7 @@ public class CupJavaImpl extends ASTWrapperPsiElement implements CupJavaCode {
 
     public void accept(@NotNull PsiElementVisitor visitor) {
         if (visitor instanceof CupVisitor) {
-            ((CupVisitor) visitor).visitJavaCode(this);
+            ((CupVisitor) visitor).visitJavaRaw(this);
         } else {
             super.accept(visitor);
         }
@@ -32,7 +34,8 @@ public class CupJavaImpl extends ASTWrapperPsiElement implements CupJavaCode {
 
     @Override
     public PsiLanguageInjectionHost updateText(@NotNull String text) {
-        return null;
+        PsiElement newElement = CupPsiElementFactory.createJavaCodeFromText(getProject(), text);
+        return (PsiLanguageInjectionHost) this.replace(newElement);
     }
 
     @NotNull
@@ -60,7 +63,7 @@ public class CupJavaImpl extends ASTWrapperPsiElement implements CupJavaCode {
 
             @Override
             public boolean isOneLine() {
-                return true;
+                return false;
             }
         };
     }

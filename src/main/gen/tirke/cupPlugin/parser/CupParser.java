@@ -193,7 +193,7 @@ public class CupParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'init' 'with' java_body ';'?
+  // 'init' 'with' java_code ';'?
   public static boolean initCode(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "initCode")) return false;
     if (!nextTokenIs(builder, INIT)) return false;
@@ -201,7 +201,7 @@ public class CupParser implements PsiParser, LightPsiParser {
     Marker marker = enter_section_(builder, level, _NONE_, INIT_CODE, null);
     result = consumeTokens(builder, 1, INIT, WITH);
     pinned = result; // pin = 1
-    result = result && report_error_(builder, java_body(builder, level + 1));
+    result = result && report_error_(builder, java_code(builder, level + 1));
     result = pinned && initCode_3(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;
@@ -254,52 +254,26 @@ public class CupParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '{:' JAVA* ':}'
-  public static boolean java_body(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "java_body")) return false;
-    if (!nextTokenIs(builder, LEFTCUPBRACES)) return false;
-    boolean result;
-    Marker marker = enter_section_(builder);
-    result = consumeToken(builder, LEFTCUPBRACES);
-    result = result && java_body_1(builder, level + 1);
-    result = result && consumeToken(builder, RIGHTCUPBRACES);
-    exit_section_(builder, marker, JAVA_BODY, result);
-    return result;
-  }
-
-  // JAVA*
-  private static boolean java_body_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "java_body_1")) return false;
-    while (true) {
-      int pos = current_position_(builder);
-      if (!consumeToken(builder, JAVA)) break;
-      if (!empty_element_parsed_guard_(builder, "java_body_1", pos)) break;
-    }
-    return true;
-  }
-
-  /* ********************************************************** */
-  // '{:' JAVA* ':}'
+  // '{:' java_raw ':}'
   public static boolean java_code(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "java_code")) return false;
     if (!nextTokenIs(builder, LEFTCUPBRACES)) return false;
     boolean result;
     Marker marker = enter_section_(builder);
     result = consumeToken(builder, LEFTCUPBRACES);
-    result = result && java_code_1(builder, level + 1);
+    result = result && java_raw(builder, level + 1);
     result = result && consumeToken(builder, RIGHTCUPBRACES);
     exit_section_(builder, marker, JAVA_CODE, result);
     return result;
   }
 
-  // JAVA*
-  private static boolean java_code_1(PsiBuilder builder, int level) {
-    if (!recursion_guard_(builder, level, "java_code_1")) return false;
-    while (true) {
-      int pos = current_position_(builder);
-      if (!consumeToken(builder, JAVA)) break;
-      if (!empty_element_parsed_guard_(builder, "java_code_1", pos)) break;
-    }
+  /* ********************************************************** */
+  // java?
+  public static boolean java_raw(PsiBuilder builder, int level) {
+    if (!recursion_guard_(builder, level, "java_raw")) return false;
+    Marker marker = enter_section_(builder, level, _NONE_, JAVA_RAW, "<java raw>");
+    consumeToken(builder, JAVA);
+    exit_section_(builder, level, marker, true, false, null);
     return true;
   }
 
@@ -379,14 +353,14 @@ public class CupParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // symbol_id (':' label_id)?
-  //                         |   java_body
+  //                         |   java_code
   public static boolean prod_part(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "prod_part")) return false;
     if (!nextTokenIs(builder, "<prod part>", IDENTIFIER, LEFTCUPBRACES)) return false;
     boolean result;
     Marker marker = enter_section_(builder, level, _NONE_, PROD_PART, "<prod part>");
     result = prod_part_0(builder, level + 1);
-    if (!result) result = java_body(builder, level + 1);
+    if (!result) result = java_code(builder, level + 1);
     exit_section_(builder, level, marker, result, false, null);
     return result;
   }
@@ -535,7 +509,7 @@ public class CupParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'scan' 'with' java_body ';'?
+  // 'scan' 'with' java_code ';'?
   public static boolean scanCode(PsiBuilder builder, int level) {
     if (!recursion_guard_(builder, level, "scanCode")) return false;
     if (!nextTokenIs(builder, SCAN)) return false;
@@ -543,7 +517,7 @@ public class CupParser implements PsiParser, LightPsiParser {
     Marker marker = enter_section_(builder, level, _NONE_, SCAN_CODE, null);
     result = consumeTokens(builder, 1, SCAN, WITH);
     pinned = result; // pin = 1
-    result = result && report_error_(builder, java_body(builder, level + 1));
+    result = result && report_error_(builder, java_code(builder, level + 1));
     result = pinned && scanCode_3(builder, level + 1) && result;
     exit_section_(builder, level, marker, result, pinned, null);
     return result || pinned;

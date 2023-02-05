@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface CupProdPart extends PsiElement {
 
   @Nullable
-  CupJavaBody getJavaBody();
+  CupJavaCode getJavaCode();
 
   @Nullable
   CupLabelId getLabelId();

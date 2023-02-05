@@ -10,14 +10,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static tirke.cupPlugin.psi.CupTypes.*;
 import tirke.cupPlugin.psi.*;
 
-public class CupJavaBodyImpl extends CupJavaImpl implements CupJavaBody {
+public class CupJavaRawImpl extends CupJavaImpl implements CupJavaRaw {
 
-  public CupJavaBodyImpl(ASTNode node) {
+  public CupJavaRawImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CupVisitor visitor) {
-    visitor.visitJavaBody(this);
+    visitor.visitJavaRaw(this);
   }
 
   @Override

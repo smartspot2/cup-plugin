@@ -29,8 +29,8 @@ public class CupScanCodeImpl extends ASTWrapperPsiElement implements CupScanCode
 
   @Override
   @Nullable
-  public CupJavaBody getJavaBody() {
-    return findChildByClass(CupJavaBody.class);
+  public CupJavaCode getJavaCode() {
+    return findChildByClass(CupJavaCode.class);
   }
 
 }

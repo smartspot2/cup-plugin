@@ -8,11 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static tirke.cupPlugin.psi.CupTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import tirke.cupPlugin.psi.*;
 
-public class CupJavaCodeImpl extends CupJavaImpl implements CupJavaCode {
+public class CupJavaCodeImpl extends ASTWrapperPsiElement implements CupJavaCode {
 
-  public CupJavaCodeImpl(ASTNode node) {
+  public CupJavaCodeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
@@ -24,6 +25,12 @@ public class CupJavaCodeImpl extends CupJavaImpl implements CupJavaCode {
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CupVisitor) accept((CupVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public CupJavaRaw getJavaRaw() {
+    return findNotNullChildByClass(CupJavaRaw.class);
   }
 
 }

@@ -55,7 +55,10 @@
                 language="Cup"
                 implementationClass="tirke.cupPlugin.editor.CupAnnotator"/>
 
-        <languageInjector implementation="tirke.cupPlugin.editor.CupJavaInjector"/>
+        <lang.elementManipulator
+                forClass="tirke.cupPlugin.psi.impl.CupJavaImpl"
+                implementationClass="tirke.cupPlugin.editor.CupJavaCodeManipulator"/>
+        <multiHostInjector implementation="tirke.cupPlugin.editor.CupJavaInjector"/>
         <colorSettingsPage implementation="tirke.cupPlugin.highlighting.CupColorSettingsPage"/>
         <applicationConfigurable
                 instance="tirke.cupPlugin.options.CupConfigurable"

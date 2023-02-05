@@ -4,8 +4,9 @@ package tirke.cupPlugin.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiLanguageInjectionHost;
 
-public interface CupImportDeclaration extends PsiElement {
+public interface CupImportDeclaration extends PsiLanguageInjectionHost {
 
   @Nullable
   CupQualifiedName getQualifiedName();

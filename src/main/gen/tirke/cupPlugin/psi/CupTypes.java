@@ -14,8 +14,8 @@ public interface CupTypes {
   IElementType IMPORT_DECLARATION = new CupElementType("IMPORT_DECLARATION");
   IElementType INITIAL_DECLARATION = new CupElementType("INITIAL_DECLARATION");
   IElementType INIT_CODE = new CupElementType("INIT_CODE");
-  IElementType JAVA_BODY = new CupElementType("JAVA_BODY");
   IElementType JAVA_CODE = new CupElementType("JAVA_CODE");
+  IElementType JAVA_RAW = new CupElementType("JAVA_RAW");
   IElementType LABEL_ID = new CupElementType("LABEL_ID");
   IElementType PACKAGE_DECLARATION = new CupElementType("PACKAGE_DECLARATION");
   IElementType PARSER_CODE = new CupElementType("PARSER_CODE");
@@ -47,7 +47,7 @@ public interface CupTypes {
   IElementType IDENTIFIER = new CupTokenType("identifier");
   IElementType IMPORT = new CupTokenType("import");
   IElementType INIT = new CupTokenType("init");
-  IElementType JAVA = new CupTokenType("JAVA");
+  IElementType JAVA = new CupTokenType("java");
   IElementType LEFT = new CupTokenType("left");
   IElementType LEFTCUPBRACES = new CupTokenType("{:");
   IElementType LEFTI = new CupTokenType("<");
@@ -93,11 +93,11 @@ public interface CupTypes {
       else if (type == INIT_CODE) {
         return new CupInitCodeImpl(node);
       }
-      else if (type == JAVA_BODY) {
-        return new CupJavaBodyImpl(node);
-      }
       else if (type == JAVA_CODE) {
         return new CupJavaCodeImpl(node);
+      }
+      else if (type == JAVA_RAW) {
+        return new CupJavaRawImpl(node);
       }
       else if (type == LABEL_ID) {
         return new CupLabelIdImpl(node);

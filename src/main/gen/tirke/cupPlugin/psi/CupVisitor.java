@@ -21,7 +21,7 @@ public class CupVisitor extends PsiElementVisitor {
   }
 
   public void visitImportDeclaration(@NotNull CupImportDeclaration o) {
-    visitPsiElement(o);
+    visitPsiLanguageInjectionHost(o);
   }
 
   public void visitInitCode(@NotNull CupInitCode o) {
@@ -32,11 +32,11 @@ public class CupVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitJavaBody(@NotNull CupJavaBody o) {
-    visitPsiLanguageInjectionHost(o);
+  public void visitJavaCode(@NotNull CupJavaCode o) {
+    visitPsiElement(o);
   }
 
-  public void visitJavaCode(@NotNull CupJavaCode o) {
+  public void visitJavaRaw(@NotNull CupJavaRaw o) {
     visitPsiLanguageInjectionHost(o);
   }
 
@@ -45,7 +45,7 @@ public class CupVisitor extends PsiElementVisitor {
   }
 
   public void visitPackageDeclaration(@NotNull CupPackageDeclaration o) {
-    visitPsiElement(o);
+    visitPsiLanguageInjectionHost(o);
   }
 
   public void visitParserCode(@NotNull CupParserCode o) {

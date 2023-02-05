@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface CupInitCode extends PsiElement {
 
   @Nullable
-  CupJavaBody getJavaBody();
+  CupJavaCode getJavaCode();
 
 }

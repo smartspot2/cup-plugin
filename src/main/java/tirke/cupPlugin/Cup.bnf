@@ -80,15 +80,17 @@
 cupSpec                 ::=  initialDeclaration codeParts* symbols* precedences* startWith? production*
 
 initialDeclaration      ::= packageDeclaration? importDeclaration* classNameDeclaration?
-packageDeclaration      ::= 'package' qualifiedName ';'
-importDeclaration       ::= 'import' 'static'? qualifiedName ('.' '*')? ';'
+packageDeclaration      ::= 'package' qualifiedName ';'  { implements = "com.intellij.psi.PsiLanguageInjectionHost"
+                                                           mixin = "tirke.cupPlugin.psi.impl.CupJavaImpl" }
+importDeclaration       ::= 'import' 'static'? qualifiedName ('.' '*')? ';' { implements = "com.intellij.psi.PsiLanguageInjectionHost"
+                                                                              mixin = "tirke.cupPlugin.psi.impl.CupJavaImpl" }
 classNameDeclaration    ::= 'class' identifier ';'
 
 codeParts               ::= actionCode | parserCode | initCode | scanCode
 actionCode              ::= 'action' 'code' java_code ';'?
 parserCode              ::= 'parser' 'code' java_code ';'?
-initCode                ::= 'init' 'with' java_body ';'?
-scanCode                ::= 'scan' 'with' java_body ';'?
+initCode                ::= 'init' 'with' java_code ';'?
+scanCode                ::= 'scan' 'with' java_code ';'?
 
 
 symbols                 ::= ( 'terminal' | 'non' 'terminal' | 'nonterminal' )
@@ -117,17 +119,17 @@ startWith               ::= 'start' 'with' identifier ';' {pin = 1}
 production              ::= symbol_id '::=' rhs ('|' rhs)* ';' {pin = 1}
 rhs                     ::= prod_part* ['%prec' symbol_id]
 prod_part               ::= symbol_id (':' label_id)?
-                        |   java_body
+                        |   java_code
 
 symbol_id               ::= identifier { methods = [getReference] }
 label_id                ::= identifier
 
-// code inserted in class
-java_code               ::= '{:' JAVA* ':}' {implements= "com.intellij.psi.PsiLanguageInjectionHost"
-                                                  mixin = "tirke.cupPlugin.psi.impl.CupJavaImpl"}
-// code inserted in method
-java_body               ::= '{:' JAVA* ':}' {implements= "com.intellij.psi.PsiLanguageInjectionHost"
-                                                  mixin = "tirke.cupPlugin.psi.impl.CupJavaImpl"}
+// java surrounded by {: :}
+java_code               ::= '{:' java_raw ':}'
+// raw java code
+java_raw ::= java? {implements = "com.intellij.psi.PsiLanguageInjectionHost"
+                    mixin="tirke.cupPlugin.psi.impl.CupJavaImpl"
+                    pin = 2}
 
 termNameList            ::= identifier (',' identifier)* ';'
 qualifiedName           ::= identifier ('.' identifier)*

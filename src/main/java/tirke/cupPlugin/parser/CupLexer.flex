@@ -5,34 +5,44 @@ import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import tirke.cupPlugin.psi.CupTypes;
 import static tirke.cupPlugin.psi.CupTypes.*;
 
 %%
 
 %{
-  public _CupLexer() {
-    this((java.io.Reader)null);
-  }
+  int postponedMarkedPos = -1;
+
+      public CupLexer() {
+        this((java.io.Reader)null);
+      }
+
+      private IElementType formJavaCode() {
+          zzStartRead = postponedMarkedPos;
+          postponedMarkedPos = -1;
+          return JAVA;
+      }
 %}
 
 %public
-%class _CupLexer
+%class CupLexer
 %implements FlexLexer
 %function advance
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=\s+
+%state JAVA_CODE
+
+LineTerminator = \r|\n|\r\n
+WhiteSpace = [ \t]
+AnySpace = {LineTerminator} | {WhiteSpace} | [\f]
 
 IDENTIFIER=[a-zA-Z_0-9]+
 LINE_COMMENT="//".*
 BLOCK_COMMENT="/*" ~"*/"
-SPACE=[ \t\n\x0B\f\r]+
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}        { return WHITE_SPACE; }
 
   "|"                  { return BAR; }
   "::="                { return CCEQ; }
@@ -40,7 +50,9 @@ SPACE=[ \t\n\x0B\f\r]+
   ","                  { return COMMA; }
   "<"                  { return LEFTI; }
   ">"                  { return RIGHTI; }
-  "{:"                 { return LEFTCUPBRACES; }
+  "{:"                 { postponedMarkedPos = zzEndRead;
+                         yybegin(JAVA_CODE);
+                         return LEFTCUPBRACES; }
   ":}"                 { return RIGHTCUPBRACES; }
   "."                  { return DOT; }
   "?"                  { return QM; }
@@ -67,13 +79,18 @@ SPACE=[ \t\n\x0B\f\r]+
   "%prec"              { return PERCENT_PREC; }
   "precedence"         { return PRECED; }
   "right"              { return RIGHT; }
-  "JAVA"               { return JAVA; }
 
   {IDENTIFIER}         { return IDENTIFIER; }
   {LINE_COMMENT}       { return LINE_COMMENT; }
   {BLOCK_COMMENT}      { return BLOCK_COMMENT; }
-  {SPACE}              { return SPACE; }
 
+  {AnySpace}           { return WHITE_SPACE; }
+  [^]                  { return BAD_CHARACTER; }
 }
 
-[^] { return BAD_CHARACTER; }
+<JAVA_CODE> {
+  ":}"                 { yybegin(YYINITIAL);
+                         yypushback(2);  // leave :} out of code
+                         return formJavaCode(); }
+  [^]                  {  }
+}
