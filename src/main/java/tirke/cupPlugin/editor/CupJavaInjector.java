@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CupJavaInjector implements MultiHostInjector {
-    private CupSettings settings = CupSettings.getInstance();
+    private final CupSettings settings = CupSettings.getInstance();
 
     @Override
     public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar, @NotNull PsiElement context) {
@@ -87,13 +87,18 @@ public class CupJavaInjector implements MultiHostInjector {
 
         // look at rules
         runningPrefix.append("/** @noinspection ALL*/");
-        runningPrefix.append("public final void action_code() {\nObject RESULT = null;\n");
+        runningPrefix.append("public final void action_code(int CUP$act_num) {\n");
+        runningPrefix.append("Object RESULT = null;\n");
+        runningPrefix.append("switch (CUP$act_num) {\n");
         int ruleCount = 0;  // keep track of current index, as we need to close everything in the last rule
         for (CupJavaImpl host : productions) {
             ruleCount++;
 
-            StringBuilder suffix = new StringBuilder("\n");
+            runningPrefix.append("case ").append(ruleCount).append(":\n{\n");
+
+            StringBuilder suffix = new StringBuilder("\n}\n");  // close case block
             if (ruleCount == productions.size()) {
+                suffix.append("}\n");  // switch
                 suffix.append("}\n");  // close method
                 suffix.append("}\n");  // close action class
                 suffix.append("}\n");  // close parser class

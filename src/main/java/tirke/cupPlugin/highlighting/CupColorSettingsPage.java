@@ -16,8 +16,8 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import gnu.trove.THashMap;
 
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.Icon;
 
@@ -32,8 +32,8 @@ public class CupColorSettingsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] ATTRS = new AttributesDescriptor[]{
             new AttributesDescriptor("Illegal character", ILLEGAL),
-            new AttributesDescriptor("Line Comment", LINE_COMMENT),
-            new AttributesDescriptor("Block Comment", BLOCK_COMMENT),
+            new AttributesDescriptor("Line comment", LINE_COMMENT),
+            new AttributesDescriptor("Block comment", BLOCK_COMMENT),
             new AttributesDescriptor("Comma", COMMA),
             new AttributesDescriptor("Semicolon", SEMI),
             new AttributesDescriptor("Keyword", KEYWORD),
@@ -96,7 +96,7 @@ public class CupColorSettingsPage implements ColorSettingsPage {
     @Nullable
     @Override
     public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-        Map<String, TextAttributesKey> map = new THashMap<>();
+        Map<String, TextAttributesKey> map = new HashMap<>();
         map.put("l", LABEL_ID);
         map.put("nt", NON_TERM_ID);
         map.put("t", TERM_ID);

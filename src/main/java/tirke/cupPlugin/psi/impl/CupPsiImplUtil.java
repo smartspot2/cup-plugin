@@ -1,6 +1,5 @@
 package tirke.cupPlugin.psi.impl;
 
-import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -67,14 +66,14 @@ public class CupPsiImplUtil {
                         new CommonProcessors.FindFirstProcessor<>() {
                             @Override
                             protected boolean accept(CupSymbolDefinition cupSymbolDefinition) {
-                                return Comparing.equal(cupSymbolDefinition.getName(), name);
+                                return Objects.equals(cupSymbolDefinition.getName(), name);
                             }
                         };
                 processSymbolsVariants(getElement(), processor);
                 return processor.getFoundValue();
             }
 
-            @org.jetbrains.annotations.NotNull
+            @NotNull
             @Override
             public Object[] getVariants() {
                 CommonProcessors.CollectProcessor<CupSymbolDefinition> processor =
